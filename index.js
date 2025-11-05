@@ -7,11 +7,11 @@ const client = new Client({
   ]
 });
 
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN || 'default-token';
 
-if (!DISCORD_TOKEN) {
+if (!DISCORD_TOKEN || DISCORD_TOKEN === 'default-token') {
   console.error('❌ Error: DISCORD_TOKEN not found in environment variables!');
-  console.log('Please set your Discord bot token in the Secrets tab.');
+  console.log('Please set your Discord bot token in Render Environment Variables.');
   process.exit(1);
 }
 
