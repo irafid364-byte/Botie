@@ -1,5 +1,10 @@
+const express = require('express');
 const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, REST, Routes } = require('discord.js');
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Discord Bot Code
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -42,7 +47,7 @@ client.once('ready', async () => {
   
   client.user.setPresence({
     activities: [{ 
-      name: 'www. xxx .com', 
+      name: 'www.xxx.com', 
       type: 3
     }],
     status: 'online'
@@ -105,8 +110,35 @@ client.on('error', (error) => {
   console.error('❌ Discord client error:', error);
 });
 
+// Bot login
 client.login(DISCORD_TOKEN).catch(error => {
   console.error('❌ Failed to login:', error);
   console.log('Please check your DISCORD_TOKEN is valid.');
   process.exit(1);
+});
+
+// ========================
+// PORT BINDING FOR RENDER
+// ========================
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'Discord Bot is Running',
+    bot: client.user?.tag || 'Starting...',
+    timestamp: new Date(),
+    message: 'Vouch bot is online and ready!'
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK',
+    bot: client.user?.tag || 'Offline',
+    uptime: process.uptime()
+  });
+});
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 Health check available at: http://0.0.0.0:${PORT}/health`);
 });
