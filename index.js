@@ -42,7 +42,7 @@ client.once('ready', async () => {
   
   client.user.setPresence({
     activities: [{ 
-      name: 'www.xxx.com', 
+      name: 'www. xxx .com', 
       type: 3
     }],
     status: 'online'
